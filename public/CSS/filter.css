@@ -17,6 +17,7 @@
   padding: 10px;
   /* flex-wrap: wrap; */
   overflow: hidden;
+  position: relative;
 }
 #filters {
   display: flex;
@@ -57,6 +58,28 @@
   flex-shrink: 0;
 }
 
+/* Navigation buttons */
+.nav-btn {
+  margin-top: 3.7rem;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 50%;
+  display: none; /* Initially hidden */
+}
+
+.nav-btn.show {
+  display: block;
+}
+
+.prev-btn {
+  left: 0;
+}
+
 @media (max-width: 768px) {
   #filters-wrapper {
     flex-direction: column;
@@ -78,5 +101,33 @@
   .tax-toggle {
     margin-left: 0;
     margin-top: 10px;
+  }
+
+  /* 🔹 Keep navigation buttons in the same place as desktop */
+  .nav-btn {
+    position: absolute;
+    margin-top: 3.7rem;
+    /* top: 50%; */
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    display: none; /* Initially hidden */
+  }
+
+  .nav-btn.show {
+    display: block;
+  }
+
+  .prev-btn {
+    left: 0;
+  }
+
+  .next-btn {
+    right: 0;
   }
 }

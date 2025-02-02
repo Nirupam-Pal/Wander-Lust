@@ -1,6 +1,9 @@
 <% layout("/layouts/boilerplate") %>
 
   <div id="filters-wrapper">
+    <!-- Previous button -->
+    <button class="nav-btn prev-btn" id="prevBtn">←</button>
+    
     <div id="filters">
       <div class="filter">
         <div><i class="fa-solid fa-fire"></i></div>
@@ -49,8 +52,12 @@
       <div class="filter">
         <div><i class="fa-solid fa-ship"></i></div>
         <p>House Boat</p>
-      </div>      
+      </div>
     </div>
+
+    <!-- Next button -->
+    <button class="nav-btn next-btn" id="nextBtn">→</button>
+
     <div class="tax-toggle">
       <div class="form-check-reverse form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
@@ -95,4 +102,35 @@
         }
       }
     })
+
+    const filters = document.getElementById("filters");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Scroll step
+    const scrollAmount = 200;
+
+    function checkButtons() {
+      // Show/hide previous button
+      prevBtn.classList.toggle("show", filters.scrollLeft > 0);
+
+      // Show/hide next button
+      nextBtn.classList.toggle("show", filters.scrollLeft < filters.scrollWidth - filters.clientWidth);
+    }
+
+    // Scroll left
+    prevBtn.addEventListener("click", () => {
+      filters.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+
+    // Scroll right
+    nextBtn.addEventListener("click", () => {
+      filters.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+
+    // Check button visibility on scroll
+    filters.addEventListener("scroll", checkButtons);
+
+    // Check button visibility on load
+    checkButtons();
   </script>
