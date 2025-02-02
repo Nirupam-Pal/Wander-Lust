@@ -20,7 +20,6 @@ const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
 
-
 //Routes
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/reviews.js");

@@ -3,11 +3,32 @@
   text-align: center;
   margin-right: 2rem;
   opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  /* width: 100%; */
+  flex-shrink: 0;
+}
+#filters-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  /* flex-wrap: wrap; */
+  overflow: hidden;
 }
 #filters {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-grow: 1;
+}
+#filters::-webkit-scrollbar {
+  display: none;
 }
 .filter:hover {
   opacity: 1;
@@ -16,16 +37,46 @@
 .filter p {
   font-size: 0.8rem;
 }
-.tax-info{
-    display: none;
+
+/* .filter i {
+  font-size: 20px;
+} */
+
+.tax-info {
+  display: none;
 }
 
-.tax-toggle{
-    border: 1px solid black;
-    border-radius: 1rem;
-    height: 2.5rem;
-    padding: 1rem;
-    margin-left: 5rem;
-    display: flex;
+.tax-toggle {
+  border: 1px solid black;
+  border-radius: 1rem;
+  height: 2.5rem;
+  padding: 1rem;
+  margin-left: 5rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  #filters-wrapper {
+    flex-direction: column;
     align-items: center;
+  }
+
+  #filters {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+  }
+
+  .filter {
+    scroll-snap-align: start;
+  }
+
+  .tax-toggle {
+    margin-left: 0;
+    margin-top: 10px;
+  }
 }
