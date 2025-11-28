@@ -107,6 +107,11 @@ app.use((req, res, next)=>{
   next();
 })
 
+// Root route - redirect to /listings
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 //storing a demo user into the database
 // app.use("/demouser", async (req, res)=>{
 //   let fakeuser = new User({
