@@ -36,7 +36,18 @@ main()
 });
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  try {
+    await mongoose.connect(dbUrl, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
+      retryWrites: true,
+      w: 'majority'
+    });
+  } catch (err) {
+    console.log("MongoDB connection error:", err);
+    // Don't throw - let the app start even if DB connection fails
+    // The connection will retry on next request
+  }
 }
 
 app.set("view engine", "ejs");
@@ -54,7 +65,7 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-store.on("error", ()=>{
+store.on("error", (err)=>{
   console.log("Error in Mongo session store", err);
 })
 
@@ -66,7 +77,7 @@ const sessionOptions = {
   cookie:{
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000, //7 days
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    htttpOnly: true
+    httpOnly: true
   }
 };
 
@@ -92,7 +103,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next)=>{
   res.locals.successMsg = req.flash("success");
   res.locals.errorMsg = req.flash("error");
-  res.locals.currUser = req.user;
+  res.locals.currUser = req.user || null;
   next();
 })
 
@@ -119,6 +130,10 @@ app.all("*", (req, res, next) => {
 //Middleware for error handling
 app.use((err, req, res, next) => {
   let { status = 500, message = "Some error occured" } = err;
+  // Ensure currUser is available in error pages
+  if (!res.locals.currUser) {
+    res.locals.currUser = req.user || null;
+  }
   //res.status(status).send(message);
   res.status(status).render("error.ejs", { message });
 });
